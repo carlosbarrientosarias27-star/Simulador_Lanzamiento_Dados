@@ -1,99 +1,97 @@
-import sys
 from visualizacion import limpiar_pantalla, mostrar_histograma
 from logica import realizar_serie_tiradas
 from estadisticas import calcular_estadisticas
 from persistencia import guardar_en_historial
 
 def mostrar_bienvenida():
-    """Muestra el título y los dados disponibles."""
+    """Muestra el título del programa y los dados disponibles."""
     print("==========================================")
     print("🎲 SIMULADOR DE LANZAMIENTO DE DADOS 🎲")
     print("==========================================")
     print("Dados disponibles: D4, D6, D8, D10, D12, D20\n")
 
-def ejecutar_simulacion(dados_validos):
-    """Lógica para la opción 'Nueva tirada'."""
-    tipo = input("Elige un tipo de dado: ").upper()
-    if tipo not in dados_validos:
-        print("❌ Error: Tipo de dado no válido.")
-        return None
-
-    try:
-        n_dados = int(input("¿Cuántos dados? (1-10): "))
-        n_tiradas = int(input("¿Cuántas tiradas? (1-20): "))
-
-        if not (1 <= n_dados <= 10 and 1 <= n_tiradas <= 20):
-            print("❌ Cantidades fuera de rango.")
-            return None
-
-        # Ejecución
-        resultados = realizar_serie_tiradas(dados_validos[tipo], n_dados, n_tiradas)
-        
-        # Mostrar resultados individuales
-        print("\n--- RESULTADOS ---")
-        for i, tirada in enumerate(resultados, 1):
-            print(f"Tirada {i}: {tirada} -> Suma: {sum(tirada)}")
-
-        # Estadísticas e Histograma
-        stats = calcular_estadisticas(resultados)
-        print(f"\nSuma total: {stats['total']} | Media: {stats['media']:.2f}")
-        
-        valores_planos = [d for t in resultados for d in t]
-        mostrar_histograma(valores_planos)
-        
-        return {"tipo": tipo, "n": n_dados, "res": resultados, "stats": stats}
-
-    except ValueError:
-        print("❌ Error: Introduce números enteros.")
-        return None
-
 def menu():
-    """Bucle principal con las opciones requeridas."""
+    """Bucle principal con el menú de opciones requerido."""
     dados_validos = {"D4": 4, "D6": 6, "D8": 8, "D10": 10, "D12": 12, "D20": 20}
-    ultima_sesion = None
+    # Variable para almacenar los datos de la última tirada realizada
+    ultima_tirada = None
 
     while True:
         limpiar_pantalla()
         mostrar_bienvenida()
         
         print("1. Nueva tirada")
-        print("2. Ver resultados de la última tirada")
-        print("3. Guardar en historial")
+        print("2. Ver historial de esta sesión (última tirada)")
+        print("3. Guardar última tirada en archivo")
         print("4. Salir")
         
-        opcion = input("\nSelecciona una opción: ")
+        opcion = input("\nSelecciona una opción (1-4): ")
 
         if opcion == "1":
-            ultima_sesion = ejecutar_simulacion(dados_validos)
+            tipo = input("Elige un tipo de dado: ").upper()
+            if tipo not in dados_validos:
+                print("❌ Tipo de dado no válido.")
+                input("Enter para continuar...")
+                continue
+
+            try:
+                n_dados = int(input("¿Cuántos dados? (1-10): "))
+                n_reps = int(input("¿Cuántas tiradas? (1-20): "))
+
+                if 1 <= n_dados <= 10 and 1 <= n_reps <= 20:
+                    # Lógica y Estadísticas
+                    resultados = realizar_serie_tiradas(dados_validos[tipo], n_dados, n_reps)
+                    stats = calcular_estadisticas(resultados)
+                    
+                    # Guardamos en memoria para las opciones 2 y 3
+                    ultima_tirada = {
+                        "tipo": tipo,
+                        "n_dados": n_dados,
+                        "resultados": resultados,
+                        "stats": stats
+                    }
+
+                    # Visualización inmediata
+                    print("\n--- RESULTADOS ---")
+                    for i, t in enumerate(resultados, 1):
+                        print(f"Tirada {i}: {t} -> Suma: {sum(t)}")
+                    
+                    valores_planos = [d for tirada in resultados for d in tirada]
+                    mostrar_histograma(valores_planos)
+                else:
+                    print("❌ Cantidades fuera de rango.")
+            except ValueError:
+                print("❌ Introduce números enteros válidos.")
             input("\nPresiona Enter para volver al menú...")
-        
+
         elif opcion == "2":
-            if ultima_sesion:
-                print(f"\nÚltima tirada ({ultima_sesion['tipo']}): {ultima_sesion['res']}")
+            if ultima_tirada:
+                print(f"\nÚltima configuración: {ultima_tirada['n_dados']} {ultima_tirada['tipo']}")
+                print(f"Resultados: {ultima_tirada['resultados']}")
             else:
-                print("\n⚠️ No hay datos en esta sesión aún.")
+                print("\n⚠️ No se han realizado tiradas en esta sesión.")
             input("\nPresiona Enter para continuar...")
 
         elif opcion == "3":
-            if ultima_sesion:
+            if ultima_tirada:
                 ruta = guardar_en_historial(
-                    ultima_sesion['tipo'], 
-                    ultima_sesion['n'], 
-                    ultima_sesion['res'], 
-                    ultima_sesion['stats']
+                    ultima_tirada['tipo'], 
+                    ultima_tirada['n_dados'], 
+                    ultima_tirada['resultados'], 
+                    ultima_tirada['stats']
                 )
-                print(f"✅ Guardado en: {ruta}")
+                print(f"✅ Guardado con éxito en: {ruta}")
             else:
-                print("\n⚠️ Nada que guardar.")
+                print("\n⚠️ No hay datos para guardar. Realiza una tirada primero.")
             input("\nPresiona Enter para continuar...")
 
         elif opcion == "4":
-            print("¡Hasta luego! 🎲")
+            print("¡Gracias por usar el simulador!🎲")
             break
         
         else:
             print("❌ Opción no válida.")
-            input("\nPresiona Enter para reintentar...")
+            input("Presiona Enter para reintentar...")
 
 if __name__ == "__main__":
     menu()
