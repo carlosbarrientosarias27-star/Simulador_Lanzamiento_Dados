@@ -1,0 +1,4 @@
+solo biblioteca estándar: 
+random, 
+os, 
+datetime
