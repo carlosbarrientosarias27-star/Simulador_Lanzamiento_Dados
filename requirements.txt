@@ -1,6 +1,6 @@
 solo biblioteca estándar: 
-random, 
-os, 
+random
+os 
 datetime
 sys
 colletions 
