@@ -1,9 +1,6 @@
-import os
-import sys
-
-from SRC.visualizacion import limpiar_pantalla, mostrar_histograma
-from SRC.logica import realizar_serie_tiradas
-from SRC.estadisticas import calcular_estadisticas
+from visualizacion import limpiar_pantalla, mostrar_histograma
+from logica import realizar_serie_tiradas
+from estadisticas import calcular_estadisticas
 
 def menu():
     """Bucle principal del simulador[cite: 129, 133]."""
