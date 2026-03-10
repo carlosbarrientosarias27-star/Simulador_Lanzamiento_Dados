@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.join(directorio_raiz, 'src'))
 
 # 3. Importaciones (Ahora Python sabe dónde buscar)
 try:
-    from logica import realizar_serie_tiradas, lanzar_dados
+    from Simulador_lanzamiento_dado.src.simulador import realizar_serie_tiradas, lanzar_dados
     print("✅ Módulos cargados correctamente desde 'src'")
 except ImportError as e:
     print(f"❌ Error crítico: No se pudo encontrar logica.py. Error: {e}")

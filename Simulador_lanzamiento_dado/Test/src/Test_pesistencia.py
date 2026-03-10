@@ -15,9 +15,9 @@ if ruta_src not in sys.path:
 
 # 2. Importación del módulo
 try:
-    from persistencia import guardar_en_historial
+    from Simulador_lanzamiento_dado.src.persistencia import guardar_en_historial
 except ImportError:
-    from SRC.persistencia import guardar_en_historial
+    from Simulador_lanzamiento_dado.src.persistencia import guardar_en_historial
 
 class TestPersistencia(unittest.TestCase):
 

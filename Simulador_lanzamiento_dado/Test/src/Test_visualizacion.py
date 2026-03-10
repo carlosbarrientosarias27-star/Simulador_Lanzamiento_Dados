@@ -17,10 +17,10 @@ if ruta_src not in sys.path:
 
 # 2. Importación protegida
 try:
-    from visualizacion import limpiar_pantalla, mostrar_histograma
+    from Simulador_lanzamiento_dado.src.visualizacion import limpiar_pantalla, mostrar_histograma
 except ImportError:
     # Intento alternativo si los archivos están estrictamente en src/
-    from SRC.visualizacion import limpiar_pantalla, mostrar_histograma
+    from Simulador_lanzamiento_dado.src.visualizacion import limpiar_pantalla, mostrar_histograma
 
 class TestVisualizacion(unittest.TestCase):
 

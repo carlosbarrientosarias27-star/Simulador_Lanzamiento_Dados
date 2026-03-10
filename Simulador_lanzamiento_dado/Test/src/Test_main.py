@@ -10,9 +10,9 @@ sys.path.append(SRC_PATH)
 
 # 2. Importaciones
 try:
-    from logica import realizar_serie_tiradas
+    from Simulador_lanzamiento_dado.src.simulador import realizar_serie_tiradas
     from estadisticas import calcular_estadisticas
-    from persistencia import guardar_en_historial
+    from Simulador_lanzamiento_dado.src.persistencia import guardar_en_historial
 except ImportError as e:
     print(f"Error: No se pudieron importar los módulos desde {SRC_PATH}")
     print(f"Detalle: {e}")
