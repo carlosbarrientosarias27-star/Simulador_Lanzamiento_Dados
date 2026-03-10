@@ -2,8 +2,5 @@ solo biblioteca estándar:
 random
 os 
 datetime
-sys
-colletions 
-unittest.mock
 
 

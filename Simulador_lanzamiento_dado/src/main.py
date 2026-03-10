@@ -4,6 +4,9 @@ import estadisticas
 import visualizacion
 import persistencia
 def menu_principal():
+    """
+    Gestiona el flujo principal del programa y la interfaz de usuario por consola.
+    """
     sesion_actual = []
     stats_actuales = {}
     config_actual = {}

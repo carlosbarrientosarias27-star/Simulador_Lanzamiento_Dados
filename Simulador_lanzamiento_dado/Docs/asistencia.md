@@ -1,43 +1,42 @@
-# Registro de Asistencia de IA - Simulador de Lanzamiento 
+# Registro de Asistencia de Inteligencia Artificial
 
-Este documento detalla la interacción con la IA para el desarrollo del proyecto SIMULADOR_LANZAMIENTO_DADOS, cubriendo desde la estructura lógica hasta la visualización y persistencia.
+Este documento detalla la interacción con modelos de IA para el desarrollo del proyecto **Simulador de Lanzamiento de Dados**. Se documentan los prompts utilizados para la arquitectura, lógica de negocio y pruebas unitarias.
 
-# 🤖 Resumen de Interacción
+---
 
-Modelo: Gemini 
+## 1. Arquitectura y Estructura del Proyecto
+**Prompt:**
+> "Genera una estructura de carpetas para un proyecto de Python que simule el lanzamiento de dados. Necesito separar la lógica del simulador, el manejo de estadísticas, la persistencia de datos (guardado de resultados) y la visualización. Incluye una carpeta de pruebas usando PyTest."
 
-Fecha de Inicio: 9 de marzo de 2026
+---
 
-Objetivo: Crear un simulador modular de lanzamientos de dados con análisis estadístico y persistencia de datos.
+## 2. Lógica del Simulador (`src/simulador.py`)
+**Prompt:**
+> "Crea una clase en Python llamada `Simulador` que permita lanzar un dado de N caras. Debe incluir un método para realizar múltiples lanzamientos y devolver una lista con los resultados. Asegúrate de manejar errores si el número de caras es menor a 2."
 
-# 🛠️ Prompts Utilizados 
+---
 
-## 1. Definición de Arquitectura 
+## 3. Estadísticas y Visualización (`src/estadisticas.py` y `src/visualizacion.py`)
+**Prompt:**
+> "Escribe una función que reciba una lista de resultados de lanzamientos de dados y calcule la frecuencia de cada cara, el promedio y la desviación estándar. Además, genera un prompt para Matplotlib que cree un histograma simple con estos datos."
 
-Prompt: "Genera la estructura de carpetas para un proyecto de Python de simulación de dados. Necesito separar la lógica, la visualización, la persistencia de datos y las estadísticas en módulos diferentes dentro de una carpeta SRC. También incluye una carpeta Tests para pruebas unitarias."
+---
 
-## 2. Lógica del Simulador (logica.py) 
+## 4. Persistencia de Datos (`src/persistencia.py`)
+**Prompt:**
+> "Crea un módulo para guardar los resultados de las simulaciones en un archivo JSON y en un CSV. El sistema debe permitir cargar un historial previo para no sobrescribir los datos antiguos."
 
-Prompt: "Escribe una clase en Python llamada Simulador que permita lanzar dados de N caras. Debe incluir métodos para lanzamientos individuales y múltiples, devolviendo una lista de resultados."
+---
 
-## 3. Estadísticas y Visualización (estadisticas.py y visualizacion.py) 
+## 5. Pruebas Unitarias (`test/src/`)
+**Prompt:**
+> "Genera pruebas unitarias utilizando `pytest` para los siguientes módulos:
+> 1. `Test_simulador.py`: Verificar que los resultados estén en el rango correcto.
+> 2. `Test_estadisticas.py`: Validar cálculos con una lista de datos conocida.
+> 3. `Test_persistencia.py`: Probar la escritura y lectura de archivos usando mocks para no crear archivos reales."
 
-Prompt: "Crea una función que reciba una lista de resultados de dados y calcule la frecuencia, el promedio y la moda."
+---
 
-## 4. Persistencia de Datos (persistencia.py) 
-
-Prompt: "Necesito una función para guardar los resultados de cada sesión en un archivo .txt dentro de una carpeta llamada Historial. El nombre del archivo debe incluir un timestamp con el formato tiradas_YYYYMMDD_HHMMSS.txt."
-
-## 5. Pruebas Unitarias (Tests/) 
-
-Prompt: "Genera pruebas unitarias usando unittest para los módulos de lógica y estadística. Asegúrate de probar casos de borde como dados de 1 sola cara o listas de resultados vacías."
-
-# 📋 Convenciones de Código Sugeridas
-
-Durante la asistencia, se establecieron las siguientes reglas:
-
-Uso de Docstrings en todas las funciones.
-
-Manejo de excepciones en la lectura/escritura de archivos.
-
-Seguimiento del estándar PEP 257.
+## 6. Documentación y Casos de Borde
+**Prompt:**
+> "¿Qué casos de borde (edge cases) debería considerar para un simulador de dados? Ayúdame a redactar un archivo `Caso Edge.md` que explique cómo manejar entradas no numéricas o dados con 0 caras."

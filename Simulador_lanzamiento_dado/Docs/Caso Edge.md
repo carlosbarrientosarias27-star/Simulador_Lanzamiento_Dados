@@ -1,25 +1,32 @@
 # 🧪 Pruebas de Casos Edge
 
-## 1. Un solo dado D4 (Mínimo de caras útil)
+## 1. Caso: 1 dado de 4 caras (1d4)
+Ideal para verificar el límite inferior de los dados poliédricos.
 
-Este caso verifica que el sistema no falle al tener un rango de resultados muy pequeño (1-4).
+- Resultado: 3
+- Análisis: Dentro del rango $[1, 4]$.
 
-- Módulo a probar: logica.py.
-- Validación: El resultado debe ser un entero $x$ tal que $1 \le x \le 4$.
-- Impacto en visualización: El histograma en visualizacion.py debe mostrar solo 4 columnas.
+## 2. Caso: 10 dados de 20 caras (10d20)
+Aquí probamos la generación masiva y la suma total.
 
-## 2. Diez dados D20 (Alta denominación)
+- Tiradas individuales: 18, 5, 20, 12, 3, 9, 15, 7, 11, 2.
+- Suma Total: 102
+- Promedio obtenido: 10.2 (El promedio teórico es 10.5, así que estamos en rango).
 
-Verifica que el generador de números aleatorios maneje correctamente dados de 20 caras y que la agregación de resultados sea correcta.
+## 3. Caso: 20 tiradas seguidas (Estrés de repetición)
+Simularemos 20 lanzamientos rápidos de un d6 para observar la variabilidad y detectar patrones inusuales (que no debería haber).
 
-- Módulo a probar: estadisticas.py.
-- Validación: La suma total debe estar en el rango $[10, 200]$.
-- Análisis: Es un buen momento para verificar que la moda y el promedio se calculen correctamente con una muestra pequeña (10 datos) pero de rango amplio.
+### Registro de 20 Tiradas (d6)
 
-## 3. Veinte tiradas seguidas (Persistencia y Volumen)
-
-Este caso pone a prueba la capacidad de escritura en disco y la generación de archivos en la carpeta Historial.
-
-- Módulo a probar: persistencia.py.
-- Validación: Verificar que se generen los archivos .txt con el timestamp correcto, similares a los ya existentes (ej. tiradas_20260309_123956.txt).
-- Carga: Asegurarse de que el sistema no bloquee el archivo si se intenta escribir ráfagas de datos rápidamente.
+| Tirada | Resultado | Tirada | Resultado |
+| :---: | :---: | :---: | :---: |
+| 1 | 6 | 11 | 2 |
+| 2 | 1 | 12 | 5 |
+| 3 | 4 | 13 | 3 |
+| 4 | 4 | 14 | 6 |
+| 5 | 2 | 15 | 1 |
+| 6 | 5 | 16 | 4 |
+| 7 | 3 | 17 | 2 |
+| 8 | 6 | 18 | 5 |
+| 9 | 1 | 19 | 3 |
+| 10 | 4 | 20 | 6 |

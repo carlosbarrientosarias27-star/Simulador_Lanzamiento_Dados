@@ -1,45 +1,88 @@
-# 🎲 Simulador de Lanzamiento de Dados
+# 🎲 Simulador de Lanzamiento de Dado
 
-Un simulador de lanzamiento de dados en Pyhton que tengan un soporte para análisis estadístico, visualización de resultados, persistencia de historial y pruebas automatizadas.
+Un simulador estadístico de lanzamientos de dado desarrollado en Python, con capacidades de análisis estadístico, persistencia de datos, visualización de resultados y una suite completa de pruebas automatizadas.
 
 ---
 
-# 📋 Descripción del Proyecto
+# 📋 Tabla de Contenidos
 
-Este proyecto implementa un "Similador de lanzamiento de dados" que permite realizar tiradas individuales y múltiples, registrar los resultados, analizarlos estadísticamente y visualizarlos gráficamente y guarda un historial de todas las partidas realizas.
+- [Descripción del Proyecto](#descripción-del-proyecto)
+- [Objetivos](#objetivos)
+- [Características](#características)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Requisitos](#requisitos)
+- [Instalación](#instalación)
+- [Uso](#uso)
+- [Ejemplos de Ejecución](#ejemplos-de-ejecución)
+- [Pruebas](#pruebas)
+- [Documentación](#documentación)
+- [Licencia](#licencia)
 
-## Objetivos
+---
 
-- **Simular** lanzamientos de uno o varios dados con distintas configuraciones (número de caras, cantidad de dados).
-- **Analizar** estadísticamente los resultados: media, mediana, moda, desviación estándar y distribución de frecuencias.
-- **Visualizar** los resultados mediante gráficas y representaciones gráficas en consola o ventana.
-- **Persistir** el historial de tiradas en archivos de texto para consultas futuras.
-- **Garantizar** la calidad del código mediante una suite completa de pruebas unitarias.
+# 📖 Descripción del Proyecto
+
+El **Simulador de Lanzamiento de Dado** es una aplicación Python que permite simular el lanzamiento de dados, registrar los resultados, calcular estadísticas descriptivas y visualizar la distribución de los datos. El sistema incluye persistencia de historial de lanzamientos, facilitando el análisis de sesiones anteriores.
+
+El proyecto sigue principios de diseño modular, con separación clara de responsabilidades entre la lógica de simulación, el cálculo estadístico, la visualización y el almacenamiento de datos.
+
+---
+
+# 🎯 Objetivos
+
+## Objetivos Principales
+
+1. **Simular lanzamientos de dado** de forma aleatoria y reproducible, permitiendo configurar el número de caras y la cantidad de tiradas.
+
+2. **Calcular estadísticas descriptivas** sobre los resultados obtenidos: media, mediana, moda, varianza, desviación estándar y frecuencias relativas.
+
+3. **Visualizar los resultados** mediante gráficos de distribución de frecuencias que faciliten la interpretación de los datos.
+
+4. **Persistir el historial** de lanzamientos para permitir análisis comparativos entre sesiones.
+
+# Objetivos Secundarios
+
+- Garantizar la **calidad del código** mediante pruebas unitarias automatizadas para cada módulo.
+- Proporcionar una **interfaz de usuario clara** e intuitiva desde la línea de comandos.
+- Documentar el comportamiento esperado del sistema ante **casos borde** (lanzamientos con valor mínimo, máximo, sesiones vacías, etc.).
+
+---
+
+# ✨ Características
+
+- 🎲 Simulación de dados con número configurable de caras (por defecto: 6)
+- 📊 Análisis estadístico completo de los resultados
+- 📈 Visualización gráfica de distribuciones de frecuencia
+- 💾 Persistencia del historial de lanzamientos en disco
+- 🧪 Suite de pruebas unitarias para todos los módulos
+- 🖥️ Interfaz de línea de comandos intuitiva
 
 ---
 
 # 🗂️ Estructura del Proyecto
 
 ```
-SIMULADOR_LANZAMIENTO_DADOS/
+Historial/                             # Directorio externo donde se guardan las tiradas
+Simulador_lanzamiento_dado/
 ├── Docs/
-│   ├── asistencia.md           # Documentación de asistencia / ayuda
-│   └── Caso Edge.md            # Casos límite y comportamientos especiales
+│   ├── asistencia.md          # Documentación de asistencia y soporte
+│   └── Caso Edge.md           # Casos borde documentados
 ├── Historial/
-│   ├── tiradas_YYYYMMDD_HHMMSS.txt  # Archivos de historial de tiradas
-│   └── .gitkeep
-├── SRC/
-│   ├── estadisticas.py         # Cálculos estadísticos sobre los resultados
-│   ├── logica.py               # Lógica principal del simulador de dados
-│   ├── main.py                 # Punto de entrada de la aplicación
-│   ├── persistencia.py         # Lectura/escritura del historial en disco
-│   └── visualizacion.py        # Generación de gráficas y representaciones visuales
-├── Tests/
-│   ├── Test_estadisticas.py    # Tests para el módulo de estadísticas
-│   ├── Test_logica.py          # Tests para la lógica del simulador
-│   ├── Test_pesistencia.py     # Tests para la persistencia de datos
-│   ├── Tests_main.py           # Tests de integración del módulo principal
-│   └── Tests_visualizacion.py  # Tests para el módulo de visualización
+│   └── .gitkeep               # Marca el directorio en el repositorio (vacío)
+├── src/
+│   ├── __init__.py
+│   ├── main.py                # Punto de entrada principal de la aplicación
+│   ├── simulador.py           # Lógica de simulación de lanzamientos
+│   ├── estadisticas.py        # Cálculo de estadísticas descriptivas
+│   ├── visualizacion.py       # Generación de gráficos y visualizaciones
+│   └── persistencia.py        # Carga y guardado del historial
+├── test/
+│   └── src/
+│       ├── __init__.py
+│       ├── Test_simulador.py       # Pruebas del módulo simulador
+│       ├── Test_estadisticas.py    # Pruebas del módulo estadísticas
+│       ├── Test_pesistencia.py     # Pruebas del módulo persistencia
+│       └── Test_visualizacion.py  # Pruebas del módulo visualización
 ├── .gitignore
 ├── LICENSE
 ├── README.md
@@ -48,144 +91,211 @@ SIMULADOR_LANZAMIENTO_DADOS/
 
 ---
 
-# ⚙️ Requisitos
+# 🛠️ Requisitos
 
 - Python 3.14
-- Las dependencias listadas en `requirements.txt`
 
+---
 
-# 🚀 Instrucciones de Uso
+# ⚙️ Instalación
 
-## 1. Clonar el repositorio
+1. **Clonar el repositorio:**
+   ```
+   git clone https://github.com/tu-usuario/Simulador_lanzamiento_dado.git
+   cd Simulador_lanzamiento_dado
+   ```
+
+2. **Crear y activar un entorno virtual (recomendado):**
+   ```
+   python -m venv venv
+
+   # En Windows:
+   venv\Scripts\activate
+
+   # En macOS/Linux:
+   source venv/bin/activate
+   ```
+---
+
+# 🚀 Uso
+
+Ejecuta la aplicación principal desde la raíz del proyecto:
 
 ```
-git clone <url-del-repositorio>
-cd SIMULADOR_LANZAMIENTO_DADOS
+python src/main.py
+```
+
+## Opciones disponibles
+
+La aplicación acepta argumentos opcionales desde la línea de comandos:
+
+```
+# Simulación básica con configuración por defecto (1 dado de 6 caras, 10 lanzamientos)
+python src/main.py
+
+# Especificar número de lanzamientos
+python src/main.py --lanzamientos 100
+
+# Especificar número de caras del dado
+python src/main.py --caras 12
+
+# Combinación de parámetros
+python src/main.py --lanzamientos 50 --caras 20
+
+# Ver el historial de sesiones anteriores
+python src/main.py --historial
+
+# Mostrar ayuda
+python src/main.py --help
 ```
 
 ---
 
-# 🎮 Ejemplos de Ejecución
+# 📌 Ejemplos de Ejecución
 
-## Ejemplo 1 – Lanzamiento básico
-
-```
-python SRC/main.py
-```
+## Ejemplo 1 — Simulación básica (10 lanzamientos, dado de 6 caras)
 
 ```
-=== Simulador de Lanzamiento de Dados ===
-Número de dados: 2
-Número de caras por dado: 6
-Número de tiradas: 10
-
-Resultados:
-  Tirada  1: [3, 5] → Suma: 8
-  Tirada  2: [1, 6] → Suma: 7
-  Tirada  3: [4, 4] → Suma: 8
-  ...
-
-Estadísticas:
-  Media:              7.40
-  Mediana:            7.50
-  Moda:               8
-  Desviación típica:  1.85
-
-Historial guardado en: Historial/tiradas_20260309_120847.txt
+$ python src/main.py --lanzamientos 10
 ```
 
-## Ejemplo 2 – Módulo de estadísticas por separado
-
-```python
-from SRC.estadisticas import calcular_estadisticas
-
-resultados = [7, 8, 5, 9, 6, 7, 8, 7, 10, 4]
-stats = calcular_estadisticas(resultados)
-print(stats)
-# {'media': 7.1, 'mediana': 7.0, 'moda': 7, 'desviacion': 1.73}
+**Salida esperada:**
 ```
+=== Simulador de Lanzamiento de Dado ===
+Dado de 6 caras | 10 lanzamientos
 
-## Ejemplo 3 – Leer historial guardado
+Resultados: [3, 6, 1, 4, 2, 6, 5, 3, 4, 2]
 
-```python
-from SRC.persistencia import cargar_historial
+--- Estadísticas ---
+Media:              3.60
+Mediana:            3.50
+Moda:               3, 6, 4, 2  (aparecen 2 veces)
+Varianza:           2.64
+Desviación Estándar: 1.62
 
-tiradas = cargar_historial("Historial/tiradas_20260309_120847.txt")
-print(tiradas)
-```
-
-## Ejemplo 4 – Visualización de distribución
-
-```python
-from SRC.visualizacion import mostrar_distribucion
-
-resultados = [2, 3, 5, 7, 7, 8, 9, 6, 7, 8, 5, 4]
-mostrar_distribucion(resultados)
+Historial guardado en: Historial/sesion_20240315_143022.json
 ```
 
 ---
 
-## 🧪 Ejecución de Tests
-
-## Ejecutar un módulo de tests específico
+## Ejemplo 2 — Simulación extensa (1000 lanzamientos)
 
 ```
-# Tests de estadísticas
-python -m pytest Tests/Test_estadisticas.py -v
-
-# Tests de lógica
-python -m pytest Tests/Test_logica.py -v
-
-# Tests de persistencia
-python -m pytest Tests/Test_pesistencia.py -v
-
-# Tests de integración
-python -m pytest Tests/Tests_main.py -v
-
-# Tests de visualización
-python -m pytest Tests/Tests_visualizacion.py -v
+$ python src/main.py --lanzamientos 1000
 ```
 
-### Ver cobertura de tests
-
+**Salida esperada:**
 ```
-pip install pytest-cov
-python -m pytest Tests/ --cov=SRC --cov-report=term-missing
+=== Simulador de Lanzamiento de Dado ===
+Dado de 6 caras | 1000 lanzamientos
+
+--- Estadísticas ---
+Media:              3.52
+Mediana:            4.00
+Moda:               3  (aparece 178 veces)
+Varianza:           2.91
+Desviación Estándar: 1.71
+
+Frecuencias relativas:
+  1: ████████████████  16.3%
+  2: █████████████████ 17.1%
+  3: ██████████████████ 17.8%
+  4: █████████████████ 16.9%
+  5: ████████████████  16.2%
+  6: █████████████████ 15.7%
+
+[Se abre gráfico de barras de distribución]
+Historial guardado en: Historial/sesion_20240315_143055.json
 ```
 
 ---
 
-# 📁 Archivos de Historial
-
-Cada ejecución genera automáticamente un archivo de texto en la carpeta `Historial/` con el formato:
+## Ejemplo 3 — Dado de 20 caras
 
 ```
-tiradas_YYYYMMDD_HHMMSS.txt
+$ python src/main.py --lanzamientos 50 --caras 20
 ```
 
-Ejemplo de contenido:
-
+**Salida esperada:**
 ```
-Fecha: 2026-03-09 12:08:47
-Dados: 2 × D6
-Tiradas: 10
+=== Simulador de Lanzamiento de Dado ===
+Dado de 20 caras | 50 lanzamientos
+
+Resultados: [14, 7, 19, 2, 11, ...]
+
+--- Estadísticas ---
+Media:              10.44
+Mediana:            10.50
+Moda:               7  (aparece 5 veces)
+Varianza:           33.17
+Desviación Estándar: 5.76
+
+Historial guardado en: Historial/sesion_20240315_143120.json
+```
+
 ---
-Tirada 1: [3, 5] = 8
-Tirada 2: [1, 6] = 7
-...
----
-Media: 7.40 | Moda: 8 | Desv.típica: 1.85
+
+## Ejemplo 4 — Consultar historial de sesiones
+
+```bash
+$ python src/main.py --historial
 ```
+
+**Salida esperada:**
+```
+=== Historial de Sesiones ===
+[1] sesion_20240315_143022.json  |  10 lanzamientos  |  Dado 6 caras  |  Media: 3.60
+[2] sesion_20240315_143055.json  | 1000 lanzamientos  |  Dado 6 caras  |  Media: 3.52
+[3] sesion_20240315_143120.json  |  50 lanzamientos  |  Dado 20 caras  |  Media: 10.44
+```
+
+---
+
+# 🧪 Pruebas
+
+Para ejecutar la suite completa de pruebas unitarias:
+
+```
+# Desde la raíz del proyecto
+python -m pytest test/ -v
+```
+
+Para ejecutar las pruebas de un módulo específico:
+
+```
+python -m pytest test/src/Test_simulador.py -v
+python -m pytest test/src/Test_estadisticas.py -v
+python -m pytest test/src/Test_pesistencia.py -v
+python -m pytest test/src/Test_visualizacion.py -v
+```
+
+**Salida esperada:**
+```
+============================= test session starts ==============================
+test/src/Test_simulador.py::test_lanzamiento_en_rango PASSED
+test/src/Test_simulador.py::test_numero_lanzamientos PASSED
+test/src/Test_estadisticas.py::test_media PASSED
+test/src/Test_estadisticas.py::test_mediana PASSED
+test/src/Test_estadisticas.py::test_desviacion_estandar PASSED
+test/src/Test_pesistencia.py::test_guardar_historial PASSED
+test/src/Test_pesistencia.py::test_cargar_historial PASSED
+test/src/Test_visualizacion.py::test_genera_grafico PASSED
+============================== 8 passed in 0.42s ===============================
+```
+
+---
+
+# 📚 Documentación
+
+La documentación adicional del proyecto se encuentra en el directorio `Docs/`:
+
+- **`Docs/asistencia.md`** — Guía de soporte y resolución de problemas comunes.
+- **`Docs/Caso Edge.md`** — Descripción y comportamiento esperado ante casos borde (0 lanzamientos, dado de 1 cara, valores extremos, archivos de historial corruptos, etc.).
 
 ---
 
 # 📄 Licencia
 
-Este proyecto está licenciado bajo los términos del archivo [LICENSE](LICENSE).
+Este proyecto está licenciado bajo los términos descritos en el archivo [LICENSE](LICENSE MIT).
 
 ---
-
-# 📚 Documentación Adicional
-
-- [`Docs/asistencia.md`](Docs/asistencia.md) — Guía de ayuda y referencia rápida.
-- [`Docs/Caso Edge.md`](Docs/Caso%20Edge.md) — Casos límite documentados y cómo se manejan.

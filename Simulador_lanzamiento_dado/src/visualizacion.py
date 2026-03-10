@@ -2,22 +2,32 @@ import os
 from collections import Counter
 
 def limpiar_pantalla():
-    """Limpia la consola según el sistema operativo[cite: 136]."""
+    """
+    Limpia el terminal de comandos detectando el sistema operativo actual.
+    """
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def mostrar_histograma(valores):
-    """Dibuja un histograma de frecuencia usando el carácter '*'[cite: 111, 115]."""
+    """
+    Representa gráficamente la frecuencia de los resultados en la consola.
+
+    Args:
+        valores (list): Lista simple de enteros con todos los resultados obtenidos.
+    """
     frecuencias = Counter(valores)
     if not frecuencias: return
     
-    max_frecuencia = max(frecuencias.values())
     print("\n--- HISTOGRAMA DE FRECUENCIAS ---")
     for valor in sorted(frecuencias.keys()):
-        # Escala las barras proporcionalmente [cite: 112]
         barra = "*" * frecuencias[valor]
         print(f"Valor {valor:2}: {barra} ({frecuencias[valor]})")
 
 def mostrar_resultados(historial):
-    """Muestra las tiradas numeradas con enumerate()[cite: 99, 161]."""
+    """
+    Imprime en pantalla el desglose de cada tirada y su suma total.
+
+    Args:
+        historial (list): Lista de listas con los resultados de la sesión.
+    """
     for i, tirada in enumerate(historial, 1):
         print(f"Tirada {i}: {tirada} -> Suma: {sum(tirada)}")

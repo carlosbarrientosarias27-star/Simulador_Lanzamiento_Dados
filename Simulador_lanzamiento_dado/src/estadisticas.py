@@ -1,5 +1,15 @@
 def calcular_estadisticas(historial_sesion):
-    """Calcula suma total, media, máximo y mínimo de la sesión."""
+    """
+    Calcula métricas estadísticas generales de la sesión de lanzamientos.
+
+    Args:
+        historial_sesion (list): Lista de listas, donde cada sublista contiene los 
+                                 resultados de una tirada individual.
+
+    Returns:
+        dict: Diccionario con la suma total, media de la sesión, valor máximo, 
+              valor mínimo y la lista aplanada de todos los resultados.
+    """
     todos_los_valores = [valor for tirada in historial_sesion for valor in tirada]
     sumas_por_tirada = [sum(tirada) for tirada in historial_sesion]
     
