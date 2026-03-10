@@ -1,67 +1,63 @@
 import unittest
-from unittest.mock import patch, mock_open
-import sys
 import os
+import sys
+import shutil
+import time
 
-# 1. Configuración de rutas para encontrar 'src'
-directorio_actual = os.path.dirname(os.path.abspath(__file__))
-directorio_raiz = os.path.abspath(os.path.join(directorio_actual, '..'))
+# Ajuste de ruta para detectar la carpeta 'src'
+ruta_raiz = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+if ruta_raiz not in sys.path:
+    sys.path.insert(0, ruta_raiz)
 
-if directorio_raiz not in sys.path:
-    sys.path.insert(0, directorio_raiz)
-ruta_src = os.path.join(directorio_raiz, 'src')
-if ruta_src not in sys.path:
-    sys.path.insert(0, ruta_src)
-
-# 2. Importación del módulo
-try:
-    from Simulador_lanzamiento_dado.src.persistencia import guardar_en_historial
-except ImportError:
-    from Simulador_lanzamiento_dado.src.persistencia import guardar_en_historial
+from src.persistencia import guardar_historial
 
 class TestPersistencia(unittest.TestCase):
 
     def setUp(self):
-        """Configuración de datos de ejemplo para las pruebas."""
-        self.tipo_dado = "D6"
-        self.cantidad = 2
-        self.tiradas = [[1, 6], [3, 4]]
-        self.stats = {
-            'total': 14,
-            'media': 7.0,
-            'maximo': 7,
-            'minimo': 7
+        """Configuración inicial antes de cada test."""
+        self.test_dir = "Historial"
+        self.datos = [[1, 6], [3, 4]]
+        self.stats = {"promedio": 3.5}
+        self.config = {
+            'cantidad': 2,
+            'tipo': 'D6',
+            'repeticiones': 2
         }
 
-    @patch('os.makedirs') # Evita que se creen carpetas reales durante el test
-    @patch('builtins.open', new_callable=mock_open)
-    def test_guardar_en_historial_llamada_open(self, mock_file, mock_makedirs):
-        """Verifica que se genere una ruta válida y se abra el archivo para escritura."""
-        # Ejecutamos la función. os.path.join funcionará normalmente devolviendo un string.
-        ruta_result = guardar_en_historial(
-            self.tipo_dado, self.cantidad, self.tiradas, self.stats
-        )
+    def tearDown(self):
+        """Limpieza robusta después de cada test."""
+        # Damos un momento para que el SO cierre descriptores de archivos
+        time.sleep(0.1) 
         
-        # Ahora ruta_result es una cadena de texto real, no un MagicMock
-        self.assertIn("historial", ruta_result)
-        
-        # Verificamos que se llamó a abrir el archivo generado en modo escritura ('w')
-        mock_file.assert_called_once_with(ruta_result, "w", encoding="utf-8")
+        if os.path.exists(self.test_dir):
+            # Función auxiliar para forzar el borrado de archivos de solo lectura
+            def remove_readonly(func, path, excinfo):
+                os.chmod(path, 0o777)
+                func(path)
 
-    @patch('os.makedirs')
-    @patch('builtins.open', new_callable=mock_open)
-    def test_contenido_escrito(self, mock_file, mock_makedirs):
-        """Verifica que el contenido del archivo incluya los datos clave formateados."""
-        guardar_en_historial(self.tipo_dado, self.cantidad, self.tiradas, self.stats)
-        
-        # Obtenemos todo lo que se intentó escribir en el archivo simulado
-        handle = mock_file()
-        contenido_escrito = "".join(call.args[0] for call in handle.write.call_args_list)
-        
-        # Comprobamos la presencia de datos críticos en el contenido
-        self.assertIn("D6", contenido_escrito)
-        self.assertIn("Suma total: 14", contenido_escrito)
-        self.assertIn("Tirada 1: [1, 6]", contenido_escrito)
+            try:
+                shutil.rmtree(self.test_dir, onerror=remove_readonly)
+            except Exception as e:
+                print(f"\n[Aviso] No se pudo borrar {self.test_dir}: {e}")
 
-if __name__ == "__main__":
-    unittest.main(verbosity=2)
+    def test_creacion_directorio_y_archivo(self):
+        """Verifica que se cree la carpeta y el archivo de texto."""
+        nombre_archivo = guardar_historial(self.datos, self.stats, self.config)
+        ruta_completa = os.path.join(self.test_dir, nombre_archivo)
+        
+        self.assertTrue(os.path.exists(ruta_completa))
+
+    def test_contenido_archivo(self):
+        """Verifica que el contenido escrito sea el correcto."""
+        nombre_archivo = guardar_historial(self.datos, self.stats, self.config)
+        ruta_completa = os.path.join(self.test_dir, nombre_archivo)
+        
+        # El bloque 'with' asegura que el archivo se cierre tras leerlo
+        with open(ruta_completa, "r", encoding="utf-8") as f:
+            contenido = f.read()
+            self.assertIn("SIMULACIÓN DE DADOS", contenido)
+            self.assertIn("Configuración: 2 D6 x 2 veces", contenido)
+            self.assertIn("Tirada 1: [1, 6] (Suma: 7)", contenido)
+
+if __name__ == '__main__':
+    unittest.main()

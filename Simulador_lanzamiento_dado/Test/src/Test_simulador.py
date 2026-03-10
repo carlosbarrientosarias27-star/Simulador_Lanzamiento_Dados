@@ -2,47 +2,43 @@ import unittest
 import sys
 import os
 
-# 1. Localizamos la carpeta raíz del proyecto
-# __file__ es la ubicación de Tests_main.py. 
-# '..' nos sube a la carpeta Simulador_Lanzamiento_Dados
-directorio_actual = os.path.dirname(os.path.abspath(__file__))
-directorio_raiz = os.path.abspath(os.path.join(directorio_actual, '..'))
+# Ajuste de ruta para detectar la carpeta 'src' desde 'Test/src'
+ruta_raiz = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, ruta_raiz)
 
-# 2. Añadimos tanto la raíz como la carpeta 'src' al path
-sys.path.insert(0, directorio_raiz)
-sys.path.insert(0, os.path.join(directorio_raiz, 'src'))
+from src.simulador import obtener_caras_dado, lanzar_dados, realizar_sesion
 
-# 3. Importaciones (Ahora Python sabe dónde buscar)
-try:
-    from Simulador_lanzamiento_dado.src.simulador import realizar_serie_tiradas, lanzar_dados
-    print("✅ Módulos cargados correctamente desde 'src'")
-except ImportError as e:
-    print(f"❌ Error crítico: No se pudo encontrar logica.py. Error: {e}")
-    sys.exit(1)
+class TestSimulador(unittest.TestCase):
 
-class TestLogicaDados(unittest.TestCase):
+    def test_obtener_caras_dado_valido(self):
+        """Verifica que el mapeo de dados sea correcto."""
+        self.assertEqual(obtener_caras_dado("D6"), 6)
+        self.assertEqual(obtener_caras_dado("d20"), 20)
+        self.assertEqual(obtener_caras_dado("D12"), 12)
 
-    def test_lanzar_dados_rango(self):
-        """Verifica que un dado (ej. D6) devuelva valores entre 1 y 6."""
+    def test_obtener_caras_dado_invalido(self):
+        """Verifica que devuelva None si el dado no existe."""
+        self.assertIsNone(obtener_caras_dado("D100"))
+
+    def test_lanzar_dados_rango_y_cantidad(self):
+        """Valida que los resultados estén en rango y la lista tenga el tamaño correcto."""
         caras = 6
         cantidad = 10
-        resultado = lanzar_dados(caras, cantidad)
+        resultados = lanzar_dados(caras, cantidad)
         
-        self.assertEqual(len(resultado), cantidad)
-        for valor in resultado:
-            self.assertTrue(1 <= valor <= caras, f"El valor {valor} está fuera del rango 1-{caras}")
+        self.assertEqual(len(resultados), cantidad)
+        for valor in resultados:
+            self.assertTrue(1 <= valor <= caras)
 
-    def test_serie_tiradas_estructura(self):
-        """Verifica que realizar_serie_tiradas devuelva la cantidad correcta de tiradas."""
-        caras = 10
-        cantidad_dados = 3
-        repeticiones = 5
-        resultados = realizar_serie_tiradas(caras, cantidad_dados, repeticiones)
+    def test_realizar_sesion_estructura(self):
+        """Verifica que se cree una lista de listas con el historial."""
+        caras, cantidad, repeticiones = 6, 2, 5
+        sesion = realizar_sesion(caras, cantidad, repeticiones)
         
-        # Debe haber 5 listas de tiradas
-        self.assertEqual(len(resultados), repeticiones)
-        # Cada tirada debe tener 3 dados
-        self.assertEqual(len(resultados[0]), cantidad_dados)
+        # Debe haber tantas listas como repeticiones
+        self.assertEqual(len(sesion), repeticiones)
+        # Cada sub-lista debe tener el tamaño de 'cantidad'
+        self.assertEqual(len(sesion[0]), cantidad)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

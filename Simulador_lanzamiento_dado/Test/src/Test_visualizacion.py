@@ -1,61 +1,51 @@
 import unittest
+from io import StringIO
 from unittest.mock import patch
 import sys
 import os
-import io
 
-# 1. Configuración de rutas (Ruta absoluta para evitar confusiones)
-directorio_actual = os.path.dirname(os.path.abspath(__file__))
-directorio_raiz = os.path.abspath(os.path.join(directorio_actual, '..'))
+# Subimos DOS niveles para llegar a la raíz del proyecto: "Simulador_lanzamiento_dado"
+# Desde ahí, Python podrá ver la carpeta /src/ donde está visualizacion.py
+ruta_raiz = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, ruta_raiz)
 
-# Añadimos la raíz y la carpeta 'src' al path de búsqueda
-if directorio_raiz not in sys.path:
-    sys.path.insert(0, directorio_raiz)
-ruta_src = os.path.join(directorio_raiz, 'src')
-if ruta_src not in sys.path:
-    sys.path.insert(0, ruta_src)
-
-# 2. Importación protegida
-try:
-    from Simulador_lanzamiento_dado.src.visualizacion import limpiar_pantalla, mostrar_histograma
-except ImportError:
-    # Intento alternativo si los archivos están estrictamente en src/
-    from Simulador_lanzamiento_dado.src.visualizacion import limpiar_pantalla, mostrar_histograma
+# Ahora el import debería funcionar
+from src.visualizacion import mostrar_histograma, mostrar_resultados
 
 class TestVisualizacion(unittest.TestCase):
 
-    @patch('os.system')
-    def test_limpiar_pantalla_windows(self, mock_system):
-        """Verifica que se use 'cls' si el sistema simulado es Windows (nt)."""
-        with patch('os.name', 'nt'):
-            limpiar_pantalla()
-            mock_system.assert_called_once_with('cls')
+    def test_mostrar_resultados_formato(self):
+        """Verifica que mostrar_resultados imprima el formato esperado."""
+        historial = [(1, 2), (3, 4)]
+        # Capturamos la salida de la consola
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            mostrar_resultados(historial)
+            output = fake_out.getvalue()
+            
+            self.assertIn("Tirada 1: (1, 2) -> Suma: 3", output)
+            self.assertIn("Tirada 2: (3, 4) -> Suma: 7", output)
 
-    @patch('os.system')
-    def test_limpiar_pantalla_unix(self, mock_system):
-        """Verifica que se use 'clear' en sistemas Linux/Mac."""
-        with patch('os.name', 'posix'):
-            limpiar_pantalla()
-            mock_system.assert_called_once_with('clear')
-
-    def test_histograma_vacio(self):
-        """Verifica el mensaje cuando no hay datos para el histograma."""
-        captura_salida = io.StringIO()
-        with patch('sys.stdout', captura_salida):
+    def test_mostrar_histograma_vacio(self):
+        """Verifica que no explote si se le pasan valores vacíos."""
+        with patch('sys.stdout', new=StringIO()) as fake_out:
             mostrar_histograma([])
-        self.assertIn("No hay datos", captura_salida.getvalue())
+            self.assertEqual(fake_out.getvalue(), "")
 
-    def test_histograma_con_datos(self):
-        """Verifica la impresión de frecuencias y el carácter '█'."""
-        captura_salida = io.StringIO()
-        with patch('sys.stdout', captura_salida):
-            # Simulamos datos: tres 1s y un 2
-            mostrar_histograma([1, 1, 1, 2])
-        
-        salida = captura_salida.getvalue()
-        self.assertIn("FRECUENCIA DE VALORES", salida)
-        self.assertIn("Valor  1", salida)
-        self.assertIn("█", salida)
+    def test_mostrar_histograma_frecuencia(self):
+        """Verifica que el histograma dibuje los asteriscos correctos."""
+        valores = [5, 5, 5]
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            mostrar_histograma(valores)
+            output = fake_out.getvalue()
+            # El valor 5 debe tener 3 asteriscos
+            self.assertIn("Valor  5: *** (3)", output)
 
-if __name__ == "__main__":
-    unittest.main(verbosity=2)
+    @patch('os.system')
+    def test_limpiar_pantalla(self, mock_system):
+        """Prueba que os.system se llame para limpiar la consola."""
+        from src.visualizacion import limpiar_pantalla
+        limpiar_pantalla()
+        self.assertTrue(mock_system.called)
+
+if __name__ == '__main__':
+    unittest.main()

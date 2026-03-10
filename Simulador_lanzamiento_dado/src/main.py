@@ -1,8 +1,8 @@
+# En src/main.py
 import simulador
 import estadisticas
 import visualizacion
 import persistencia
-
 def menu_principal():
     sesion_actual = []
     stats_actuales = {}
