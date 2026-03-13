@@ -6,21 +6,21 @@ Un simulador estadístico de lanzamientos de dado desarrollado en Python, con ca
 
 # 📋 Tabla de Contenidos
 
-- [Descripción del Proyecto](#descripcion-del-proyecto)
+- [Descripcion del Proyecto](#descripcion-del-proyecto)
 - [Objetivos](#objetivos)
-- [Características](#caracteristicas)
+- [Caracteristicas](#caracteristicas)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Requisitos](#requisitos)
-- [Instalación](#instalacion)
+- [Instalacion](#instalacion)
 - [Uso](#uso)
-- [Ejemplos de Ejecución](#ejemplos-de-ejecucion)
+- [Ejemplos de Ejecucion](#ejemplos-de-ejecucion)
 - [Pruebas](#pruebas)
-- [Documentación](#documentacion)
+- [Documentacion](#documentacion)
 - [Licencia](#licencia)
 
 ---
 
-# 📖 Descripción del Proyecto
+# 📖 Descripcion del Proyecto
 
 El **Simulador de Lanzamiento de Dado** es una aplicación Python que permite simular el lanzamiento de dados, registrar los resultados, calcular estadísticas descriptivas y visualizar la distribución de los datos. El sistema incluye persistencia de historial de lanzamientos, facilitando el análisis de sesiones anteriores.
 
@@ -48,7 +48,7 @@ El proyecto sigue principios de diseño modular, con separación clara de respon
 
 ---
 
-# ✨ Características
+# ✨ Caracteristicas
 
 - 🎲 Simulación de dados con número configurable de caras (por defecto: 6)
 - 📊 Análisis estadístico completo de los resultados
@@ -97,7 +97,7 @@ Simulador_lanzamiento_dado/
 
 ---
 
-# ⚙️ Instalación
+# ⚙️ Instalacion
 
 1. **Clonar el repositorio:**
    ```
@@ -151,7 +151,7 @@ python src/main.py --help
 
 ---
 
-# 📌 Ejemplos de Ejecución
+# 📌 Ejemplos de Ejecucion
 
 ## Ejemplo 1 — Simulación básica (10 lanzamientos, dado de 6 caras)
 
@@ -285,7 +285,7 @@ test/src/Test_visualizacion.py::test_genera_grafico PASSED
 
 ---
 
-# 📚 Documentación
+# 📚 Documentacion
 
 La documentación adicional del proyecto se encuentra en el directorio `Docs/`:
 
