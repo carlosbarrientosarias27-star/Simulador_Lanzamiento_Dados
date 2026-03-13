@@ -11,7 +11,7 @@ Un simulador estadístico de lanzamientos de dado desarrollado en Python, con ca
 - [Características](#caracteristicas)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Requisitos](#requisitos)
-- [Instalación](#instalacion) 
+- [Instalación](#instalacion)
 - [Uso](#uso)
 - [Ejemplos de Ejecución](#ejemplos-de-ejecucion)
 - [Pruebas](#pruebas)
