@@ -6,18 +6,17 @@ Un simulador estadístico de lanzamientos de dado desarrollado en Python, con ca
 
 # 📋 Tabla de Contenidos
 
-- [Descripcion del Proyecto](#descripcion-del-proyecto)
-- [Objetivos](#objetivos)
-- [Caracteristicas](#caracteristicas)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Requisitos](#requisitos)
-- [Instalacion](#instalacion)
-- [Uso](#uso)
-- [Ejemplos de Ejecucion](#ejemplos-de-ejecucion)
-- [Pruebas](#pruebas)
-- [Documentacion](#documentacion)
-- [Licencia](#licencia)
-
+- [Descripcion del Proyecto](#-descripcion-del-proyecto)
+- [Objetivos](#-objetivos)
+- [Caracteristicas](#-caracteristicas)
+- [Estructura del Proyecto](#️-estructura-del-proyecto)
+- [Requisitos](#️-requisitos)
+- [Instalacion](#️-instalacion)
+- [Uso](#-uso)
+- [Ejemplos de Ejecucion](#-ejemplos-de-ejecucion)
+- [Pruebas](#-pruebas)
+- [Documentacion](#-documentacion)
+- [Licencia](#-licencia)
 ---
 
 # 📖 Descripcion del Proyecto
