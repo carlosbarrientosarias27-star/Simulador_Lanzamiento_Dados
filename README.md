@@ -157,7 +157,3 @@ python -m pytest tests/src/tests_simulador.py
 Este proyecto está bajo los términos descritos en el archivo [LICENSE](Simulador_lanzamiento_dado/LICENSE MIT).
 
 ---
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Por favor, abre un *issue* o un *pull request* con tus sugerencias o mejoras.
